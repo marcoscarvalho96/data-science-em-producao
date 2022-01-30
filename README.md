@@ -1,8 +1,6 @@
 # Rossmann Sales Predict
 
-
 ![](/img/sales-forecast.png)
-
 
 # Business Problem
 
@@ -87,24 +85,24 @@ With all that said, what does this deviation really represent?
 
 Check the table for the 5 best cases:
 
-|store|predictions|worst_scenario|best_scenario|MAE|MAPE|
-|-----|-----------|--------------|-------------|---|----|
-|1089|373,394.1875|372,825.1184|373,963.2566|569.07|5.3232|
-|667 |315,185.8438|314,693.4028|315,678.2847|492.44|5.5487|
-|323 |282,916.4688|282,488.0610|283,344.8765|428.41|5.6277|
-|742 |301,657.5312|301,199.1451|302,115.9174|458.39|5.6393|
-|1097|450,342.1562|449,703.2118|450,981.1007|638.94|5.7761|
+|store|predictions |worst_scenario|best_scenario|MAE|MAPE (%)|
+|-----|------------|--------------|-------------|---|----|
+|259  |353,402.3312|533,460.9444  |534,585.6805|562.37|4.3|
+|733  |649,454.2500|648,753.2012  |650,155.2987|701.05|4.9|
+|672  |307,351.2812|306,909.8079  |307,792.7545|441.47|5.2|
+|1089 |371.856,2500|371,280.0184  |372,432.4815|576.23|5.3|
+|763  |226,936.0625|226,592.5782  |227,279.5467|343.48|5.4|
 
 
 And the 5 worst cases:
 
-|store|predictions |worst_scenario|best_scenario|MAE    |MAPE   |
-|-----|------------|--------------|-------------|-------|-------|
-|292  |107,567.9375|104,245.3016  |110,890.5733 |3322.64|60.2768|
-|909  |232,030.0781|224,319.9419  |239,740.2142 |7710.14|51.8675|
-|876  |198,517.5312|194,561.8566  |202,473.2058 |3955.67|33.7730|
-|956  |136,210.0937|135,548.4395  |136,871.7479 |661.65 |33.2923|
-|675  |156,688.7968|155,881.2358  |157,496.3579 |807.56 |28.3049|
+|store|predictions |worst_scenario|best_scenario|MAE    |MAPE (%)|
+|-----|------------|--------------|-------------|-------|----|
+|292  |107,567.9375|104,245.3016  |110,890.5733 |3322.64|57.5|
+|909  |232,030.0781|224,319.9419  |239,740.2142 |7710.14|51.7|
+|876  |198,517.5312|194,561.8566  |202,473.2058 |3955.67|30.7|
+|956  |136,210.0937|135,548.4395  |136,871.7479 |661.65 |25.9|
+|675  |156,688.7968|155,881.2358  |157,496.3579 |807.56 |25.3|
 #
 The formula to calculate the above results was as follows:
 
@@ -116,10 +114,24 @@ The formula to calculate the above results was as follows:
 
 Even in the worst scenario, we have a great result in this project. The MAE is in the hundreds while the sales predictions is in the millions.
 
-# Lessons Learned
+# Model in Production
+
+The model was deployed on the Heroku Cloud platform, a free platform from SalesForce. Below we have an example of the return in JSON of the sales forecast for store 27 on 16/09/2015, in the last line of the example "prediction" we see that the store will sell $5,729.48.
+
+![](/img/deploy-heroku.png)
+
+# Next Steps in this cycle
+- Meeting with the business team to present the model, how to use it and its results;
+- Collect usability and results feedback
+- Increase model performance by 10%
 
 # What to do in the next cycle?
-
 - Test different Machine Learning models
 - Build a pipeline to retrain model
 - Get more data
+
+Thanks for reading this far! If you have any questions or if you want to chat, just contact me at the links below:
+
+- Phone: +55 11 94363-6853
+- [Linkedin](https://www.linkedin.com/in/marcos-carvalhoo/)
+- [Email](marcos.carvalho96@icloud.com)
