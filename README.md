@@ -79,7 +79,7 @@ The table bellow shows the TOTAL (in BRL) of predictions. Considering the best a
 | worst_scenario | R$ 282,668,127.02 |
 | best_scenario  | R$ 284,244,032.67 |
 #
-Below we have a scatter plot with all predictions. Notice that most are centered around a lone parallel to the X axis and MAPEa around 11% in Y axis. But, there are point far apart, this is because these are stores for which the forecasts are not so accurate.
+Below we have a scatter plot with all predictions. Notice that most are centered around a lone parallel to the X axis and MAPE around 11% in Y axis. But, there are points far apart, this is because these are stores for which the forecasts are not so accurate.
 
 ![](/img/scatter_plot.png)
 #
