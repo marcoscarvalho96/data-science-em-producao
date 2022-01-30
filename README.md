@@ -133,5 +133,5 @@ The model was deployed on the Heroku Cloud platform, a free platform from SalesF
 Thanks for reading this far! If you have any questions or if you want to chat, just contact me at the links below:
 
 - Phone: +55 11 94363-6853
+- E-mail: marcos.carvalho96@icloud.com
 - [Linkedin](https://www.linkedin.com/in/marcos-carvalhoo/)
-- [Email](marcos.carvalho96@icloud.com)
