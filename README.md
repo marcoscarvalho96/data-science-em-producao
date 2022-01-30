@@ -1,33 +1,35 @@
 # Rossmann Sales Predict
 
 
-![](sales-forecast.png)
+![](/img/sales-forecast.png)
 
 
 # Business Problem
 
 Rossmann GmbH is one of the largest drug store chains in Europe with around 56,200 employee and around 4,000 stores. After a weekly meeting with Rossmann's CFO, some store managers came to me proposing a sales forecast project to predict how much their stores are going to sell in the next 6 weeks. The core reason for this project is to support the CFO in deciding which stores to renovate based on estimated sales.
 
+# Understanding the Dataset
+
+We have two separate tables to analyze, the first is the **Sales** table, which contains information such as: date, store, total sale value, number of customers in the store in the given day and informations about holidays. The second table is the **Store**, which contains: id, type, assortment, distance from competitors, promotions and etc.
+
+The data available for the project correspond to a period of 30 months of company sales from January/2013 to June/2015 and what I want with this data is to understand the patterns and then project how much each store are going to sell in the next 6 weeks, that means from early August to mid-September 2015.
 
 # Business Assumptions
 
-The data available for the project correspond to a period of 30 months of company sales. Several details were provided, such as store type, variety of products offered, the competition distance, sales per day, holidays, marketing promotions and so on.
+To better understand the data behavior and fit the data for the models, I have to assume some things, as you can see below:
 
-To better understand the data behaviour and fit the data for the models, I have to assume some things, as you can see below:
-
-- **Competition Distance:** It is expressed in meters but, some rows was zero. So I assume that zero competition distance is the same as there are no competitiors close to the store. But, this zero values will cause bias in the ML models, so to fix this problem I assumed a fixed value (100,000 meters) higher than the highest value in dataset.
-- **Assorment:** I assumed there is a hierarchy between the assortment types. So, stores that has assortment type C must offer types A and B too.
-- **Store Open:** As we had zero sales in days that stores were closed, I removed all records with store open status "closed".
-- **Sales Prediction:** In agreement with the CFO, I presumed they would provide the total sales for each store at the end of the sixth weeks.
-
+- **Competition Distance:** It is expressed in meters but, some records has zero values. So I assume that zero competition distance is the same as there are no competitors close to the store. But, this zero values will cause bias in the ML models, so to fix this problem I assumed a fixed value (100,000 meters) higher than the highest value in dataset.
+- **Assortment:** I assumed there is a hierarchy between the assortment types. So, stores that has assortment type C must offer types A and B too.
+- **Store Open:** The identifier for days where stores were closed is 0 and closed days are not interest because it also have 0 sales, I removed all records with store open status "closed".
+- **Sales Prediction:** In agreement with the CFO, I presumed they would like to see the total sales for each store at the end of the sixth weeks.
 
 My strategy to solve this challenge was based in CRISP-DM Cycle:
 
-![](crisp-ds.png)
+![](/img/crisp-ds.png)
 
-# Machine Learning Models and Metrics
+# Machine Learning Models Performance Evalutation
 
-Machine Learning is the focus of the Rossmann project, because here is where we are going to find some interesting assumptions over the data and really predict what the CFO need. I tested four Machine Learning Algorithms: Linear Regression, Lasso Regression, Random Forest Regression and XGBoost Regressor. To understand the algorithms performance I used 3 different metrics: MAE, MAPE and RMSE.
+Machine Learning is the focus of the Rossmann project, because here is where we are going to find some interesting insights over the data and really predict what the CFO need. I tested four Machine Learning Algorithms: Linear Regression, Lasso Regression, Random Forest Regression and XGBoost Regressor. To understand the algorithms performance I used 3 different metrics: MAE, MAPE and RMSE.
 
 Bellow I leave the results for each model after cross validation:
 
@@ -38,41 +40,50 @@ Bellow I leave the results for each model after cross validation:
 | Random Forest Regressor   |  836.89  +/- 217.42 | 11.61 +/- 2.32 | 1254.75 +/- 316.61 |
 | XGBoost Regressor         |  2889.54 +/- 588.52 | 34.54 +/- 1.39 | 3714.69 +/- 456.1  |
 
-
-I choose to follow the first cycle of CRISP with XGBoost even with worse performance, because the CFO requested that the project no go beyond the budget already defined for the analytics area and all Machine Learning projects have to be aligned with budget.
+I choose to follow the first cycle of CRISP with XGBoost even with worse performance comparing to the other models, because the CFO requested that the project to not go beyond the budget already defined for the analytics area and all Machine Learning projects have to be aligned with budget.
 
 The main concern here is to not overload our servers with a heavy model when put this into production. So I assumed the following questions to choose XGBoost:
 
 - Can the final model be sustained by the business infrastructure?
-- Do the results (direct or indirect) affect or are affected by any internalcompany policy?
+- Do the results (direct or indirect) affect or are affected by any internal company policy?
 
-In this case, the model will be hosted on a free cloud (Heroku) where we have a space limitation. Random Forest has a size estimated in 1GB, meanwhile the XGBoost is much smaller with a size around 300MB.
+In this case, the model will be hosted on a free cloud (Heroku) where we have a space limitation and Random Forest has a size estimated in 1GB, meanwhile the XGBoost is much smaller with a size around 300MB.
 
 After Hyperparameter Fine Tuning with Random Search, the metric problem was solved, increasing a lot the model metrics MAE, MAPE and RMSE.
 
-|    Model Name        |     MAE      |    MAPE%    |     RMSE       |
-|:--------------------:|:------------:|:-----------:|:--------------:|
-|  XGBoost Regressor   |   703.3284   |   10.3164   |   1,016.1218   |
+|    Model Name        |     MAE    |    MAPE%    |     RMSE     |
+|:--------------------:|:----------:|:-----------:|:------------:|
+|  XGBoost Regressor   |   703.33   |   10.32     |   1,016.12   |
 #
 After Hyperparameter we had a RMSE better than Random Forest.
 
+Analyzing the metrics results we can see:
+
+1. MAE - tells us that the model can be wrong in its predictions +/- $703.33.
+
+2. MAPE - tells us how much our model can be wrong in a prediction in percentage, that is the same to say that the value of $703.33 is equal to 10.32% of the total value of the prediction.
+
+3. RMSE - tells us that we can be wrong in 921 units of the prediction. Something to be alert is that this metric is sensibly to extreme values, although most cases are higher than the MAE, we only need to be worried is if the **RMSE 2x** is higher than **MAE** is something to look out for and investigate.
+
+![](/img/salesxpredictions.png)
+
 # Business Results
 
-We made a really good progress until now, but only show metrics to the CFO will not help him to understand the model and put the main reason in practice. So bellow I converted the metrics into real business results.
+We made a really good progress until now, but only show metrics to the CFO will not help him to understand the predictions and decide which stores worth to be renovated. So bellow I converted the metrics into real business results.
 
-The table bellow shows the TOTAL (in USD) of predictions. Considering the best and wors scenarios.
+The table bellow shows the TOTAL (in BRL) of predictions. Considering the best and worse scenarios.
 
-|   Scenario     |      Values      |
-|:--------------:|:----------------:|
-| predictions    | $ 283,456,064.00 |
-| worst_scenario | $ 282,668,127.02 |
-| best_scenario  | $ 284,244,032.67 |
+|   Scenario     |      Values       |
+|:--------------:|:-----------------:|
+| predictions    | R$ 283,456,064.00 |
+| worst_scenario | R$ 282,668,127.02 |
+| best_scenario  | R$ 284,244,032.67 |
 #
-Below we have a scatter plot with all predictions. Notice that most are centered around a lone parallel to the X axis and MAPEa around 11% in Y axixs. But, there are point far apart, this is because these are stores for which the forecasts are not so accurate.
+Below we have a scatter plot with all predictions. Notice that most are centered around a lone parallel to the X axis and MAPEa around 11% in Y axis. But, there are point far apart, this is because these are stores for which the forecasts are not so accurate.
 
-![](scatter_plot.png)
+![](/img/scatter_plot.png)
 #
-With all this said, what does this deviation really represent?
+With all that said, what does this deviation really represent?
 
 Check the table for the 5 best cases:
 
@@ -94,7 +105,16 @@ And the 5 worst cases:
 |876  |198,517.5312|194,561.8566  |202,473.2058 |3955.67|33.7730|
 |956  |136,210.0937|135,548.4395  |136,871.7479 |661.65 |33.2923|
 |675  |156,688.7968|155,881.2358  |157,496.3579 |807.56 |28.3049|
+#
+The formula to calculate the above results was as follows:
 
+1. I grouped the results by store and then calculated the sum of the predictions. With this we have the total predicted values for each store.
+
+2. After that we calculate the MAE for each store
+
+3. For the best scenario we sum the MAE to total sale prediction and for the worst scenario we subtract the MAE, then we obtain the results above.
+
+Even in the worst scenario, we have a great result in this project. The MAE is in the hundreds while the sales predictions is in the millions.
 
 # Lessons Learned
 
