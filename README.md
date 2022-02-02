@@ -36,7 +36,7 @@ Bellow I leave the results for each model after cross validation:
 | Linear Regression         |  2081.73 +/- 295.63 | 30.26 +/- 1.66 | 2952.52 +/- 468.37 |
 | Lasso Regression          |  2116.38 +/- 341.58 | 29.2  +/- 1.18 | 3057.75 +/- 504.26 |
 | Random Forest Regressor   |  836.89  +/- 217.42 | 11.61 +/- 2.32 | 1254.75 +/- 316.61 |
-| XGBoost Regressor         |  2889.54 +/- 588.52 | 34.54 +/- 1.39 | 3714.69 +/- 456.1  |
+| XGBoost Regressor         |  2890.76 +/- 339.98 | 34.54 +/- 1.39 | 3709.19 +/- 453.05  |
 
 I choose to follow the first cycle of CRISP with XGBoost even with worse performance comparing to the other models, because the CFO requested that the project to not go beyond the budget already defined for the analytics area and all Machine Learning projects have to be aligned with budget.
 
@@ -116,21 +116,21 @@ Even in the worst scenario, we have a great result in this project. The MAE is i
 
 # Model in Production
 
-The model was deployed on the Heroku Cloud platform, a free platform from SalesForce. Below we have an example of the return in JSON of the sales forecast for store 27 on 16/09/2015, in the last line of the example "prediction" we see that the store will sell $5,729.48.
+The model was deployed on the Heroku Cloud platform, a free platform from SalesForce and it is now available for consumption and returns results like the ones below, where we provide the stores and it calculates how much this store will sell in the next 6 weeks.
 
-![](/img/deploy-heroku.png)
+![](/img/model-production.png)
 
 # Next Steps in this cycle
 - Meeting with the business team to present the model, how to use it and its results;
 - Collect usability and results feedback
-- Increase model performance by 10%
 
 # What to do in the next cycle?
 - Test different Machine Learning models
+- Increase model performance by 10%
 - Build a pipeline to retrain model
 - Get more data
 
-Thanks for reading this far! If you have any questions or if you want to chat, just contact me at the links below:
+Thanks for reading this so far! If you have any questions or if you want to chat, just contact me at the links below:
 
 - E-mail: marcos.carvalho96@icloud.com
 - [Linkedin](https://www.linkedin.com/in/marcos-carvalhoo/)
